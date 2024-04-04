@@ -16,8 +16,8 @@
     "format": "npx @biomejs/biome format src --write && npx @biomejs/biome format test --write",
     "lint": "npx @biomejs/biome lint src && npx @biomejs/biome lint test",
     "lint:check": "npx @biomejs/biome check --apply-unsafe src && npx @biomejs/biome check --apply-unsafe test",
-    "test": "jest --no-cache --runInBand",
-    "test:cov": "jest --coverage --no-cache --runInBand"
+    "test": "vitest",
+    "test:cov": "vitest run --coverage"
   },
   "publishConfig": {
     "access": "public"
@@ -47,12 +47,9 @@
   "bugs": {
     "url": "https://github.com/tomchen/example-typescript-package/issues"
   },
-  "dependencies": {},
   "devDependencies": {
     "@biomejs/biome": "1.6.3",
-    "@types/jest": "^29.5.12",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.1.2",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "vitest": "^1.4.0"
   }
 }

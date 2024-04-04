@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { Num } from '../src/index'
 
 test('add', () => {
