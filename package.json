@@ -1,23 +1,33 @@
 {
   "name": "example-typescript-package",
-  "version": "0.2.2",
+  "version": "0.0.1",
   "description": "",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.js",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
+    }
+  },
   "scripts": {
-    "prepublishOnly": "npm run clean && npm run test && npm run lint && npm run build",
-    "build": "npm run build:cjs && npm run build:esm && npm run build:types",
-    "build:cjs": "node tools/cleanup cjs && tsc -p config/tsconfig.cjs.json",
-    "build:esm": "node tools/cleanup esm && tsc -p config/tsconfig.esm.json",
-    "build:types": "node tools/cleanup types && tsc -p config/tsconfig.types.json",
-    "clean": "node tools/cleanup",
-    "package": "npm run build && npm pack",
-    "format": "npx @biomejs/biome format src --write && npx @biomejs/biome format test --write",
-    "lint": "npx @biomejs/biome lint src && npx @biomejs/biome lint test",
-    "lint:check": "npx @biomejs/biome check --apply-unsafe src && npx @biomejs/biome check --apply-unsafe test",
+    "build": "tsup src/index.ts",
+    "changeset": "changeset",
+    "add-changeset": "changeset add",
+    "clean": "rm -rf node_modules dist",
+    "debug": "ts-node-dev --inspect -- src/index.ts",
+    "debug:break": "ts-node-dev --inspect-brk -- src/index.ts",
+    "format": "biome format src --write",
+    "lint": "npx @biomejs/biome lint src",
+    "lint:check": "npx @biomejs/biome check --apply-unsafe src",
+    "lint-staged": "lint-staged",
+    "prepare": "husky install",
+    "release": "changeset publish",
     "test": "vitest",
-    "test:cov": "vitest run --coverage"
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "version-packages": "changeset version"
   },
   "publishConfig": {
     "access": "public"
@@ -25,18 +35,7 @@
   "files": [
     "dist"
   ],
-  "keywords": [
-    "example",
-    "typescript",
-    "npm",
-    "package",
-    "sample",
-    "boilerplate",
-    "starter",
-    "demo",
-    "cjs",
-    "esm"
-  ],
+  "keywords": [],
   "author": "Tom Chen <tomchen.org@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/tomchen/example-typescript-package",
@@ -49,7 +48,24 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.6.3",
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.1",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
+    "@types/node": "^20.12.8",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.2",
+    "tsup": "^8.0.2",
     "typescript": "^5.4.3",
     "vitest": "^1.4.0"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx,html,css,json}": [
+      "npm run format",
+      "npm run lint:check"
+    ]
+  },
+  "engines": {
+    "node": ">=18"
   }
 }

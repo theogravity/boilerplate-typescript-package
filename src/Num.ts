@@ -1,25 +1,25 @@
 export class Num {
-  value: number
+  value: number;
 
   constructor(n: number) {
-    this.value = n
+    this.value = n;
   }
 
   val(): number {
-    return this.value
+    return this.value;
   }
 
   add(n2: Num): Num {
-    this.value += n2.val()
-    return this
+    this.value += n2.val();
+    return this;
   }
 
   toString(): string {
-    return this.val().toString()
+    return this.val().toString();
   }
 
   static addAll(numArr: Array<Num>): Num {
-    return new Num(numArr.map((n) => n.val()).reduce((a, b) => a + b, 0))
+    return new Num(numArr.map((n) => n.val()).reduce((a, b) => a + b, 0));
   }
 }
 
