@@ -36,15 +36,15 @@
     "dist"
   ],
   "keywords": [],
-  "author": "Tom Chen <tomchen.org@gmail.com>",
+  "author": "Theo Gravity <theo@suteki.nu>",
   "license": "MIT",
-  "homepage": "https://github.com/tomchen/example-typescript-package",
+  "homepage": "https://github.com/theogravity/example-typescript-package",
   "repository": {
     "type": "git",
-    "url": "git@github.com:tomchen/example-typescript-package.git"
+    "url": "git@github.com:theogravity/example-typescript-package.git"
   },
   "bugs": {
-    "url": "https://github.com/tomchen/example-typescript-package/issues"
+    "url": "https://github.com/theogravity/example-typescript-package/issues"
   },
   "devDependencies": {
     "@biomejs/biome": "1.6.3",
