@@ -15,23 +15,26 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Install Dependencies
-        run: npm install --frozen-lockfile --prefer-offline
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile]
 
       - name: Build workspace packages
-        run: npm run build
+        run: pnpm run build
 
       - name: Run type checking
-        run: npm run typecheck
+        run: pnpm run typecheck
 
       - name: Run linting
-        run: npm run lint
+        run: pnpm run lint
 
       - name: Create Release Pull Request / Publish Packages
         uses: changesets/action@v1
         with:
-          publish: npm run release
-          version: npm run version-packages
+          publish: pnpm run release
+          version: pnpm run version-packages
           commit: 'chore: release package(s)'
           title: 'chore: release package(s)'
         env:

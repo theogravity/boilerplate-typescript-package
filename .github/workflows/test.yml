@@ -13,11 +13,14 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Install Dependencies
-        run: npm install --frozen-lockfile --prefer-offline
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: |
+            - recursive: true
+              args: [--frozen-lockfile]
 
       - name: Build workspace packages
-        run: npm run build
+        run: pnpm run build
 
       - name: Branch Information
         run: |
@@ -29,4 +32,4 @@ jobs:
 
       - name: Run Package(s) Tests
         run: |
-          npm run test
+          pnpm test
