@@ -9,17 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
+        uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+      - name: Use pnpm
+        uses: pnpm/action-setup@v3
         with:
-          run_install: |
-            - recursive: true
-              args: [--frozen-lockfile]
+          version: 9.11.0
 
-      - name: Build workspace packages
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Build package
         run: pnpm run build
 
       - name: Branch Information
@@ -30,6 +32,6 @@ jobs:
           echo "HEAD^1 SHA: $(git rev-parse HEAD^1)"
           echo "Git Diff: $(git diff HEAD^1)"
 
-      - name: Run Package(s) Tests
+      - name: Run Package Tests
         run: |
           pnpm test

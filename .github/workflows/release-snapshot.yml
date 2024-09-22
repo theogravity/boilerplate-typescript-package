@@ -9,15 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+      - name: Use pnpm
+        uses: pnpm/action-setup@v3
         with:
-          run_install: |
-            - recursive: true
-              args: [--frozen-lockfile]
+          version: 9.11.0
 
-      - name: Build workspace packages
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Build package
         run: pnpm run build
 
       - name: Run type checking
