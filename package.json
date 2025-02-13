@@ -20,8 +20,6 @@
     "debug": "ts-node-dev --inspect -- src/index.ts",
     "debug:break": "ts-node-dev --inspect-brk -- src/index.ts",
     "lint": "biome check --write --unsafe src && biome format src --write && biome lint src --fix",
-    "lint-staged": "lint-staged",
-    "prepare": "husky",
     "release": "changeset publish",
     "syncpack:update": "syncpack update && syncpack fix-mismatches && pnpm i",
     "syncpack:format": "syncpack format",
@@ -32,19 +30,18 @@
     "version-packages": "changeset version"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.2",
+    "@biomejs/biome": "1.9.4",
     "@changesets/changelog-github": "0.5.0",
-    "@changesets/cli": "2.27.8",
-    "@commitlint/cli": "19.5.0",
-    "@commitlint/config-conventional": "19.5.0",
-    "@types/node": "22.5.5",
-    "husky": "9.1.6",
-    "lint-staged": "15.2.10",
-    "tsup": "8.3.0",
-    "syncpack": "13.0.0",
-    "turbo": "2.1.2",
-    "typescript": "5.6.2",
-    "vitest": "2.1.1"
+    "@changesets/cli": "2.27.12",
+    "@commitlint/cli": "19.7.1",
+    "@commitlint/config-conventional": "19.7.1",
+    "@types/node": "22.13.1",
+    "lefthook": "1.10.10",
+    "tsup": "8.3.6",
+    "syncpack": "13.0.2",
+    "turbo": "2.4.2",
+    "typescript": "5.7.3",
+    "vitest": "3.0.5"
   },
   "bugs": "https://github.com/theogravity/example-typescript-package/issues",
   "engines": {
@@ -55,15 +52,6 @@
   ],
   "homepage": "https://github.com/theogravity/example-typescript-package",
   "license": "MIT",
-  "lint-staged": {
-    "**/*.{js,jsx,ts,tsx,html,css,json}": [
-      "pnpm run lint"
-    ],
-    "**/package.json": [
-      "pnpm run syncpack:format",
-      "pnpm run syncpack:lint"
-    ]
-  },
   "packageManager": "pnpm@9.11.0",
   "publishConfig": {
     "access": "public"
