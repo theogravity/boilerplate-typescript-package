@@ -15,7 +15,7 @@ Configure the following files:
 
 In Github settings:
 
-- `Code and Automation > Actions > Workflow permissions`
+- `Actions > General > Workflow permissions`
   * `Read and write permissions`
   * `Allow Github Actions to create and approve pull requests`
 - `Secrets and variables > Actions`
