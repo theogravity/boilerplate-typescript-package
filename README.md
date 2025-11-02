@@ -6,6 +6,11 @@
 
 Boilerplate for creating a new NPM package with ESM and CJS support.
 
+## Install
+
+- `pnpm i`
+- `npx lefthook install`
+
 ## Setup
 
 Configure the following files:

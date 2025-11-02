@@ -14,45 +14,50 @@
   "author": "Theo Gravity <theo@suteki.nu>",
   "keywords": [],
   "scripts": {
-    "build": "tsup src/index.ts",
+    "build": "tsdown src/index.ts",
+    "commitlint": "commitlint",
     "changeset": "changeset",
     "clean": "rm -rf node_modules dist",
     "debug": "ts-node-dev --inspect -- src/index.ts",
     "debug:break": "ts-node-dev --inspect-brk -- src/index.ts",
-    "lint": "biome check --write --unsafe src && biome format src --write && biome lint src --fix",
+    "lint": "biome check --no-errors-on-unmatched --write --unsafe src",
+    "lint:staged": "biome check --no-errors-on-unmatched --write --unsafe --staged src",
+    "lint:packages": "pnpm run lint:packages:semver && pnpm run lint:packages:mismatches",
+    "lint:packages:semver": "syncpack lint-semver-ranges",
+    "lint:packages:mismatches": "syncpack list-mismatches",
+    "verify-types": "tsc --noEmit",
     "release": "changeset publish",
     "syncpack:update": "syncpack update && syncpack fix-mismatches && pnpm i",
     "syncpack:format": "syncpack format",
     "syncpack:lint": "syncpack lint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit",
     "version-packages": "changeset version"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@changesets/changelog-github": "0.5.0",
-    "@changesets/cli": "2.27.12",
-    "@commitlint/cli": "19.7.1",
-    "@commitlint/config-conventional": "19.7.1",
-    "@types/node": "22.13.1",
-    "lefthook": "1.10.10",
-    "tsup": "8.3.6",
-    "syncpack": "13.0.2",
-    "turbo": "2.4.2",
-    "typescript": "5.7.3",
-    "vitest": "3.0.5"
+    "@biomejs/biome": "2.3.2",
+    "@changesets/changelog-github": "0.5.1",
+    "@changesets/cli": "2.29.7",
+    "@commitlint/cli": "20.1.0",
+    "@commitlint/config-conventional": "20.0.0",
+    "@types/node": "24.9.2",
+    "lefthook": "2.0.2",
+    "syncpack": "13.0.4",
+    "tsdown": "0.15.12",
+    "turbo": "2.6.0",
+    "typescript": "5.9.3",
+    "vitest": "4.0.6"
   },
   "bugs": "https://github.com/theogravity/example-typescript-package/issues",
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "files": [
     "dist"
   ],
   "homepage": "https://github.com/theogravity/example-typescript-package",
   "license": "MIT",
-  "packageManager": "pnpm@9.11.0",
+  "packageManager": "pnpm@10.20.0",
   "publishConfig": {
     "access": "public"
   },
