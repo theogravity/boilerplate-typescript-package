@@ -5,7 +5,7 @@ pre-commit:
       run: turbo lint:staged
       stage_fixed: true
     "check package.json files":
-      run: pnpm run syncpack:format && pnpm run lint:packages
+      run: bun run syncpack:format && bun run lint:packages
       stage_fixed: true
     "[repo] verify types":
       run: turbo verify-types
@@ -23,4 +23,4 @@ pre-push:
 commit-msg:
   commands:
     "lint commit message":
-      run: pnpm run commitlint --edit {1}
+      run: bun run commitlint --edit {1}

@@ -1,36 +1,90 @@
-# package
+# example-typescript-package
 
-[![NPM version](https://img.shields.io/npm/v/loglayer.svg?style=flat-square)](https://www.npmjs.com/package/loglayer)
-![NPM Downloads](https://img.shields.io/npm/dm/loglayer)
+<!-- REPLACE: point these at your own package name -->
+[![NPM version](https://img.shields.io/npm/v/example-typescript-package.svg?style=flat-square)](https://www.npmjs.com/package/example-typescript-package)
+![NPM Downloads](https://img.shields.io/npm/dm/example-typescript-package)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
 
-Boilerplate for creating a new NPM package with ESM and CJS support.
+Template for creating a new NPM package with ESM and CJS support.
+
+## Toolchain
+
+| Concern          | Tool                                                          |
+| ---------------- | ------------------------------------------------------------- |
+| Package manager  | [bun](https://bun.sh)                                          |
+| Bundler          | [tsdown](https://tsdown.dev) (Rolldown)                        |
+| Type checking    | TypeScript 7 (native compiler)                                 |
+| Lint / format    | [biome](https://biomejs.dev)                                   |
+| Tests            | [vitest](https://vitest.dev)                                   |
+| Task runner      | [turbo](https://turbo.build)                                   |
+| Versioning       | [changesets](https://github.com/changesets/changesets)         |
+| Publishing       | npm OIDC trusted publishing (no long-lived token)              |
+
+`bunfig.toml` sets `[run] bun = true`, so every script and `node_modules/.bin`
+entry executes under Bun's runtime rather than deferring to its
+`#!/usr/bin/env node` shebang. Building, type checking, linting and testing all
+work with no Node.js installed at all.
+
+The one exception is publishing: changesets shells out to the npm CLI, and npm
+is what implements OIDC trusted publishing. So `release.yml` and
+`release-snapshot.yml` still set up Node; `lint.yml` and `test.yml` do not.
 
 ## Install
 
-- `pnpm i`
-- `npx lefthook install`
+- `bun install`
+- `bunx lefthook install`
 
 ## Setup
 
-Configure the following files:
+Rename first — everything below assumes the package is no longer called
+`example-typescript-package`:
 
-- `package.json`
-- Edit `.changeset/config.json` to your repository
+- `package.json`: `name`, `description`, `version`, `author`, `keywords`,
+  `repository`, `bugs`, `homepage`
+- `.changeset/config.json`: the `repo` field
+- `README.md`: the badge URLs above
+- `LICENSE`: the copyright holder
 
-In Github settings:
+`engines.node` is set to `>=22.18.0`, which is what this repo's *build*
+toolchain requires (`rolldown-plugin-dts` needs `^22.18.0 || ^24.11.0 || >=26`).
+The bundled output itself targets ES2022 and runs on much older Node, so lower
+this to match your package's actual runtime support if you care about
+consumers on older versions.
+
+In GitHub settings:
 
 - `Actions > General > Workflow permissions`
   * `Read and write permissions`
-  * `Allow Github Actions to create and approve pull requests`
-- `Secrets and variables > Actions`
-  * `Repository Secrets > Actions > create NPM_TOKEN`
+  * `Allow GitHub Actions to create and approve pull requests`
+
+On npmjs.com, for the package you are publishing:
+
+- `Settings > Trusted publisher`
+  * Publisher: `GitHub Actions`
+  * Repository: your `owner/repo`
+  * Workflow filename: `release.yml`
+
+Trusted publishing replaces `NPM_TOKEN`. The package must already exist on npm
+before a trusted publisher can be attached, so the very first release needs a
+manual `npm publish` (or a temporary token).
 
 ## Development workflow / Add a new CHANGELOG.md entry + package versioning
 
 - Create a branch and make changes.
-- Create a new changeset entry: `pnpm changeset`
+- Create a new changeset entry: `bun run changeset`
 - Commit your changes and create a pull request.
 - Merge the pull request
 - A new PR will be created with the changeset entry/ies.
 - When the PR is merged, the package versions will be bumped and published and the changelog updated.
+
+## Scripts
+
+| Script                    | Description                                          |
+| ------------------------- | ---------------------------------------------------- |
+| `bun run build`           | Bundle to `dist/`, then validate with publint + attw |
+| `bun run test`            | Run the test suite once                              |
+| `bun run test:watch`      | Run the test suite in watch mode                     |
+| `bun run verify-types`    | Type check without emitting                          |
+| `bun run lint`            | Lint and format `src/`                               |
+| `bun run lint:packages`   | Check `package.json` dependency ranges               |
+| `bun run syncpack:update` | Update all dependencies to their latest versions     |

@@ -11,28 +11,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Use pnpm
-        uses: pnpm/action-setup@v3
-
-      - uses: actions/setup-node@v4
+      - name: Use bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 20
-          cache: 'pnpm'
+          bun-version-file: package.json
+
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile --prefer-offline
+        run: bun install --frozen-lockfile
 
       - name: Build package
-        run: pnpm run build
-
-      - name: Branch Information
-        run: |
-          echo "Git Branch: $(git branch)"
-          echo "Git Log: $(git log --oneline)"
-          echo "HEAD SHA: $(git rev-parse HEAD)"
-          echo "HEAD^1 SHA: $(git rev-parse HEAD^1)"
-          echo "Git Diff: $(git diff HEAD^1)"
+        run: bun run build
 
       - name: Run Package Tests
-        run: |
-          pnpm test
+        run: bun run test
