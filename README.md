@@ -50,12 +50,22 @@ Rename first — everything below assumes the package is no longer called
 floor with newer `@types/node` lets TypeScript accept APIs that do not exist on
 the Node version you claim to support.
 
-tsdown's `target` is `node26` rather than an ES year, so it must move with
-`engines.node` too. Targeting the runtime is both more precise and smaller: an
-ES-year target still downlevels syntax that postdates it — `using` declarations
-compile to ~1.8 kB of helpers under `es2025`, versus 170 bytes emitted natively
-under `node26`. `tsconfig.json` uses `ESNext` for `target`/`lib` so type
-checking allows everything the runtime supports.
+`engines.node` is the single source of truth for the Node version:
+
+- the tsdown build target is derived from it (`node26`), so it cannot drift
+- CI reads it via `node-version-file: package.json`, so no workflow pins a version
+- `@types/node` is the one copy that cannot be derived, so
+  `scripts/verify-engines.ts` asserts its major matches. It runs as part of
+  `lint:packages`, which means pre-commit and every CI workflow already cover it
+
+Change `engines.node` and everything else follows, except `@types/node`, which
+the check will tell you to update.
+
+Targeting the runtime beats targeting an ES year: an ES year still downlevels
+syntax that postdates it — `using` declarations compile to ~1.8 kB of helpers
+under `es2025`, versus 170 bytes emitted natively under `node26`.
+`tsconfig.json` uses `ESNext` for `target`/`lib` so type checking allows
+everything the runtime supports.
 
 Note that Node 26 is the *Current* line; it becomes LTS in October 2026. Until
 then this template asks consumers to run a non-LTS Node. If that floor is too

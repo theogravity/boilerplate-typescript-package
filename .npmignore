@@ -11,5 +11,6 @@ syncpack.config.js
 tsconfig.json
 tsdown.config.ts
 turbo.json
+scripts/
 CONTRIBUTING.md
 coverage/

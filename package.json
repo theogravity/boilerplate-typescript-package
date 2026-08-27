@@ -29,7 +29,7 @@
     "debug": "bun --inspect src/index.ts",
     "debug:break": "bun --inspect-brk src/index.ts",
     "lint": "biome check --no-errors-on-unmatched --write --unsafe src",
-    "lint:packages": "syncpack lint",
+    "lint:packages": "syncpack lint && bun scripts/verify-engines.ts",
     "lint:staged": "biome check --no-errors-on-unmatched --write --unsafe --staged src",
     "release": "changeset publish",
     "syncpack:format": "syncpack format",
