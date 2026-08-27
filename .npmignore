@@ -1,25 +1,15 @@
+# NOTE: `files: ["dist"]` in package.json is the source of truth for what
+# gets published. This file only exists as a backstop.
 src/
-.babelrc
-test-report.xml
-.circleci/
-.idea/
-wallaby.js
 __tests__/
-__mocks__/
-.gitattributes
-.gitignore
-.version-bump.js
-tsconfig.json
-.changelog.js
-.prettierrc
-jest.config.js
-CONTRIBUTING.md
-test-report.xml
-coverage/
-api-doc.md
-docs/
-typedoc.js
+.changeset/
+.github/
 biome.json
-build/
 commitlint.config.js
-tsup.config.json
+lefthook.yml
+syncpack.config.js
+tsconfig.json
+tsdown.config.ts
+turbo.json
+CONTRIBUTING.md
+coverage/
