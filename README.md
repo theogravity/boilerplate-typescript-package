@@ -45,11 +45,15 @@ Rename first — everything below assumes the package is no longer called
 - `README.md`: the badge URLs above
 - `LICENSE`: the copyright holder
 
-`engines.node` is set to `>=22.18.0`, which is what this repo's *build*
-toolchain requires (`rolldown-plugin-dts` needs `^22.18.0 || ^24.11.0 || >=26`).
-The bundled output itself targets ES2022 and runs on much older Node, so lower
-this to match your package's actual runtime support if you care about
-consumers on older versions.
+`engines.node` is set to `>=24`, the current Node LTS line (24 "Krypton";
+Node 26 does not become LTS until October 2026). `@types/node` is pinned to the
+matching `24.x` line on purpose — pairing a lower `engines` floor with newer
+`@types/node` lets TypeScript accept APIs that do not exist on the Node version
+you claim to support.
+
+Keep those two in step when you bump either. The bundled output itself targets
+ES2022 and runs on much older Node, so if you want to support consumers below
+the current LTS, lower `engines.node` *and* `@types/node` together.
 
 In GitHub settings:
 
