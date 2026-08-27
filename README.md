@@ -50,10 +50,17 @@ Rename first — everything below assumes the package is no longer called
 floor with newer `@types/node` lets TypeScript accept APIs that do not exist on
 the Node version you claim to support.
 
+tsdown's `target` is `node26` rather than an ES year, so it must move with
+`engines.node` too. Targeting the runtime is both more precise and smaller: an
+ES-year target still downlevels syntax that postdates it — `using` declarations
+compile to ~1.8 kB of helpers under `es2025`, versus 170 bytes emitted natively
+under `node26`. `tsconfig.json` uses `ESNext` for `target`/`lib` so type
+checking allows everything the runtime supports.
+
 Note that Node 26 is the *Current* line; it becomes LTS in October 2026. Until
-then this template asks consumers to run a non-LTS Node. The bundled output
-itself targets ES2022 and runs on far older Node, so if that floor is too high
-for your package, lower `engines.node` *and* `@types/node` together.
+then this template asks consumers to run a non-LTS Node. If that floor is too
+high for your package, lower `engines.node`, `@types/node` and the tsdown
+`target` together.
 
 In GitHub settings:
 

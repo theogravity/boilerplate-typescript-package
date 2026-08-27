@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022", "ES2024"],
+    "target": "ESNext",
+    "lib": ["ESNext"],
     "types": ["node"],
     "sourceMap": true,
     "strict": true,

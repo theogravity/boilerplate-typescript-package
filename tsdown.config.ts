@@ -5,7 +5,10 @@ export default defineConfig({
   outDir: "dist",
   format: ["esm", "cjs"],
   platform: "node",
-  target: "es2022",
+  // Target the runtime declared in engines.node, not an ES year: it is
+  // more precise (an ES year still downlevels newer syntax) and stays
+  // reproducible, unlike "esnext" which drifts with tool versions.
+  target: "node26",
   sourcemap: false,
   nodeProtocol: true,
   fixedExtension: false,
