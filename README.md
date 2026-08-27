@@ -45,15 +45,15 @@ Rename first — everything below assumes the package is no longer called
 - `README.md`: the badge URLs above
 - `LICENSE`: the copyright holder
 
-`engines.node` is set to `>=24`, the current Node LTS line (24 "Krypton";
-Node 26 does not become LTS until October 2026). `@types/node` is pinned to the
-matching `24.x` line on purpose — pairing a lower `engines` floor with newer
-`@types/node` lets TypeScript accept APIs that do not exist on the Node version
-you claim to support.
+`engines.node` is set to `>=26`, and `@types/node` is pinned to the matching
+`26.x` line. Keep those two in step when you bump either — pairing an `engines`
+floor with newer `@types/node` lets TypeScript accept APIs that do not exist on
+the Node version you claim to support.
 
-Keep those two in step when you bump either. The bundled output itself targets
-ES2022 and runs on much older Node, so if you want to support consumers below
-the current LTS, lower `engines.node` *and* `@types/node` together.
+Note that Node 26 is the *Current* line; it becomes LTS in October 2026. Until
+then this template asks consumers to run a non-LTS Node. The bundled output
+itself targets ES2022 and runs on far older Node, so if that floor is too high
+for your package, lower `engines.node` *and* `@types/node` together.
 
 In GitHub settings:
 
