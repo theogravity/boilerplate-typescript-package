@@ -15,7 +15,7 @@ Template for creating a new NPM package with ESM and CJS support.
 | Bundler         | [tsdown](https://tsdown.dev) (Rolldown)                 |
 | Type checking   | TypeScript 7 (native compiler)                          |
 | Lint / format   | [biome](https://biomejs.dev)                            |
-| Tests           | [vitest](https://vitest.dev)                            |
+| Tests           | `bun test` (built in, Jest-compatible)                  |
 | Task runner     | [turbo](https://turbo.build)                            |
 | Versioning      | [changesets](https://github.com/changesets/changesets)  |
 | Publishing      | npm OIDC trusted publishing (no long-lived token)       |
@@ -28,6 +28,10 @@ work with no Node.js installed at all.
 Publishing is the one exception: changesets shells out to the npm CLI, and npm
 is what implements OIDC trusted publishing. So `release.yml` and
 `release-snapshot.yml` set up Node; `lint.yml` and `test.yml` do not.
+
+Note that tests therefore run on Bun, while the published package targets Node.
+For most library code the two are interchangeable, but anything that leans on
+Node-specific runtime behaviour is not covered by this suite.
 
 ## Install
 
@@ -73,6 +77,11 @@ manual `npm publish` (or a temporary token).
 | tsdown build target | computed in `tsdown.config.ts` (currently `node26`)         |
 | CI                  | `node-version-file: package.json` in the workflows          |
 | `@types/node`       | **not** derivable — checked by `scripts/verify-engines.ts`  |
+
+`scripts/verify-engines.ts` guards a second pair on the same principle:
+`@types/bun` must track the Bun release pinned in `packageManager`, or the
+`bun:test` and Bun API typings describe a different runtime than the one you
+run.
 
 To move Node versions, edit `engines.node` and run `bun run lint:packages`. The
 check will tell you if `@types/node` needs to follow, and in which direction:

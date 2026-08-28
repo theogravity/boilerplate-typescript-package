@@ -35,8 +35,8 @@
     "syncpack:format": "syncpack format",
     "syncpack:lint": "syncpack lint",
     "syncpack:update": "syncpack update && syncpack fix && bun install",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
     "verify-types": "tsc --noEmit",
     "version-packages": "changeset version"
   },
@@ -47,14 +47,14 @@
     "@changesets/cli": "3.0.1",
     "@commitlint/cli": "21.2.2",
     "@commitlint/config-conventional": "21.2.2",
+    "@types/bun": "1.4.0",
     "@types/node": "26.4.0",
     "lefthook": "2.1.10",
     "publint": "0.3.24",
     "syncpack": "15.3.3",
     "tsdown": "0.22.14",
     "turbo": "2.10.12",
-    "typescript": "7.0.2",
-    "vitest": "4.1.11"
+    "typescript": "7.0.2"
   },
   "bugs": "https://github.com/theogravity/example-typescript-package/issues",
   "engines": {

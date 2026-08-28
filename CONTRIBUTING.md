@@ -18,7 +18,7 @@ runtime. See the README for the one exception (publishing).
   * Fixes should be added to the `patch` category.
   * New features should be added to the `minor` category.
   * Breaking changes should be added to the `major` category.
-- Make sure to add tests for any code written. They are written using [vitest](https://vitest.dev/). The tests should pass before submitting a PR.
+- Make sure to add tests for any code written. They use Bun's built-in [test runner](https://bun.sh/docs/cli/test) (`import { describe, expect, it } from "bun:test"`), which is Jest-compatible. The tests should pass before submitting a PR.
 - Make sure to run the linter before submitting a PR. The linter is run using the `bun run lint` command. It uses
   [biome.js](https://biomejs.dev/) for linting.
 - If you touch dependencies or `engines.node`, run `bun run lint:packages`.

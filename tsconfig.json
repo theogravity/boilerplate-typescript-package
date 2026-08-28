@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["ESNext"],
-    "types": ["node"],
+    "types": ["node", "bun"],
     "sourceMap": true,
     "strict": true,
     "noImplicitAny": false,

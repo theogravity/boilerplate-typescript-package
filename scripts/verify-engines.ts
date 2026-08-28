@@ -5,10 +5,13 @@
  * Node version are both derived from it (see tsdown.config.ts and the
  * `node-version-file` inputs in .github/workflows), so they cannot drift.
  *
- * `@types/node` cannot be derived — it is a pinned dependency version — and a
- * mismatch fails silently: typings newer than `engines.node` let TypeScript
- * accept APIs that do not exist on the runtime the package claims to support.
- * That is what this checks.
+ * Two version pairs cannot be derived, because both halves are pinned
+ * dependency versions, and both fail silently when they drift:
+ *
+ *   - `@types/node` vs `engines.node`: typings newer than the engines floor let
+ *     TypeScript accept APIs that do not exist on the supported runtime.
+ *   - `@types/bun` vs `packageManager`: typings for a different Bun release
+ *     misdescribe `bun:test` and the rest of the Bun API.
  */
 import { readFileSync } from "node:fs";
 
@@ -44,6 +47,24 @@ if (enginesMajor && typesMajor && enginesMajor !== typesMajor) {
   );
 }
 
+const bunPin: string | undefined = pkg.packageManager;
+const bunVersion = bunPin?.startsWith("bun@") ? bunPin.slice("bun@".length) : undefined;
+if (bunPin && !bunVersion) {
+  errors.push(`packageManager is "${bunPin}", expected it to start with "bun@"`);
+}
+
+const typesBun: string | undefined = pkg.devDependencies?.["@types/bun"];
+if (bunVersion && typesBun) {
+  const minor = (v: string) => v.split(".").slice(0, 2).join(".");
+  if (minor(bunVersion) !== minor(typesBun)) {
+    errors.push(
+      `@types/bun ${typesBun} does not match packageManager bun@${bunVersion}.\n` +
+        "  Bun typings from a different release misdescribe bun:test and the Bun API.\n" +
+        `  Set @types/bun to the ${minor(bunVersion)}.x line, or change packageManager.`,
+    );
+  }
+}
+
 if (errors.length > 0) {
   console.error("✗ engines check failed:\n");
   for (const e of errors) {
@@ -53,3 +74,4 @@ if (errors.length > 0) {
 }
 
 console.log(`✓ engines.node "${enginesRange}" and @types/node ${typesRange} agree on Node ${enginesMajor}`);
+console.log(`✓ packageManager ${bunPin} and @types/bun ${typesBun} agree`);
